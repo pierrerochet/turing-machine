@@ -2,7 +2,7 @@ Machine de turing simple programmée en python
 
 
 # Exemple d'utilisation
-```python turingMachine.py duplique.TSP 2```
+```python turingMachine.py programs/duplique.TSP 2```
 
 
 # Syntaxe des programmes
