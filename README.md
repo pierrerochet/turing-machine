@@ -15,11 +15,11 @@ Machine de turing simple programmée en python
 
 | Commande | Signification |
 | --- | --- |
-| > | Déplacer la tête de lecture à droite |
-| < | Déplacer la tête de lecture à gauche |
-| state | Afficher l'état de la machine |
-| put(0) et put(1) | Inscrire un 0 ou un 1 sur la bande |
-| loop: | Créer une boucle |
+| > | Déplacer la tête de lecture à droite. |
+| < | Déplacer la tête de lecture à gauche. |
+| state | Afficher l'état de la machine. |
+| put(0) et put(1) | Inscrire un 0 ou un 1 sur la bande. |
+| loop: | Créer une boucle. |
 out(0) et out(1) | Tester la cellule courante avec un 0 ou un 1, quitte la boucle si la condition est validée, quitte le programme s'il n'y a pas de boucle parent. |
 
 ## Fonctionnement des boucles
