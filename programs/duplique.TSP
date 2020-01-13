@@ -1,7 +1,6 @@
 state
 out(0)
 
-state
 loop:
     out(0)
     >
