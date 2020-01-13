@@ -11,19 +11,36 @@ import numpy as np
 
 
 class Machine:
+    init_head = 35
+    # init_head permet de centrer la tête de lecture sur la bande
+
+    # ------------------------ Explication : -----------------------------
+
+    # On a une bande réelle d'intervalle [0:69] avec une tête de lecture 
+    # sur la position 35 :
+    # [ 0, 1, 2, ..., 32, 33, 34, 35, 36, 37, 38, ..., 67, 68, 69 ]
+    #                              X
+
+    # Ce qui revient à avoir une bande implicle d'intervalle [-35:34] avec 
+    # une tête de lecture sur la position 0 :
+    # [-35, -34, -33, ..., -3, -2, -1, 0, 1, 2, 3, ..., 32, 33, 34 ]
+    #                                  X
+
+
     def __init__(self):
-        self.tape = np.zeros(70, dtype='int32')     # la bande
-        self.head = 0                               # la tête de lecture
+        self.tape = np.zeros(70, dtype='int32')     # la bande fnie de 70 cellules
+        self.head = self.init_head                  # la tête de lecture
         self.pile = []                              # la pile
       
     def init_tape(self, args):
-        '''Initilise la bande de la machine avec les nombres passés en arguments.'''
+        '''Initilise la bande de la machine avec les nombres passés en arguments.
+        Ensuite on réinitialise la tête de lecture'''
         for n in args:
             for _ in range(n+1):
                 self.put('1')
                 self.move('>')
             self.move('>')
-        self.head = 0
+        self.head = self.init_head
             
     def move(self, direction):
         '''Déplace la tête de lecture à gauche ou à droite.'''
@@ -70,7 +87,7 @@ class Machine:
         '''Exécute une liste d'instructions de l'indice "start" à l'indice 
         "end" avec une option de récursivité.'''
         # i est l'indice de l'instruction courante
-         
+        
         i = start
         while i != end:
             
