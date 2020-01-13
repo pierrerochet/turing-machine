@@ -16,8 +16,8 @@ class Machine:
         self.head = 0                               # la tête de lecture
         self.pile = []                              # la pile
       
-    def init(self, args):
-        '''initilise la bande de la machine avec les nombres passés en argument'''
+    def init_tape(self, args):
+        '''Initilise la bande de la machine avec les nombres passés en arguments.'''
         for n in args:
             for _ in range(n+1):
                 self.put('1')
@@ -26,26 +26,27 @@ class Machine:
         self.head = 0
             
     def move(self, direction):
-        '''déplace la tête de lecture à gauche ou à droite'''
+        '''Déplace la tête de lecture à gauche ou à droite.'''
         if direction == '>':
             self.head += 1
         if direction == '<':
             self.head -= 1
             
     def put(self, element):
-        '''écrit un élement sur la bande (normalment 0 ou 1)'''
+        '''Ecrit un élement sur la bande (normalment 0 ou 1) à l'emplacement courant
+        de la tête de lecture.'''
         self.tape[self.head] = element
     
     def state(self):
-        '''renvoie l'état de la machine (repreoduction de la sortie de la 
-                                         machine JAVA de M. Del Vigna)'''
+        '''Renvoie l'état de la machine (repreoduction de la sortie de la 
+                                         machine JAVA de M. Del Vigna).'''
         tape_str = [str(ele) for ele in self.tape]
         head_str = [" " for ele in self.tape]
         head_str[self.head] = 'X'
         return f'{"".join(tape_str)}\n{"".join(head_str)}\n'
     
     def loop(self, i):
-        '''ajoute les adresses de début et de fin d'une boucle dans la pile'''
+        '''Ajoute les adresses de début et de fin d'une boucle dans la pile.'''
         start = i #adresse de la première instruction de la boucle
         end = i #adresse de la fin de la boucle
         n = len(self.pile) +1
@@ -54,20 +55,20 @@ class Machine:
         self.pile.append(slice(start, end))
         
     def out(self, condition):
-        '''vérifie si la condition de sortie est réalisée'''
+        '''Vérifie si la condition de sortie est réalisée.'''
         if self.tape[self.head] == int(condition):
             return True
 
     def execute_progr(self, prog_path):
-        '''lit le programme et exécute ses instructions'''
+        '''Lit le programme et exécute ses instructions.'''
         with open(prog_path, 'r', encoding='utf8') as sc:
             global prog # variable global pour se faciliter la vie
             prog = sc.read().split('\n')
         self.execute_inst(end=len(program))
 
     def execute_inst(self, start=0, end=0, boucle=False):
-        '''exécute une liste d'instructions de l'indice "start" à l'indice 
-        "end" avec une option de récursivité'''
+        '''Exécute une liste d'instructions de l'indice "start" à l'indice 
+        "end" avec une option de récursivité.'''
         # i est l'indice de l'instruction courante
          
         i = start
@@ -82,7 +83,7 @@ class Machine:
             elif 'state' in line:
                 print(self.state())
             elif 'out' in line:
-                # === Fonciotnnement de la sortie de boucle ===================
+                # === Fonctionnement d'une sortie de boucle ===================
                 
                 # Si on rencontre un out(0|1) valide alors on arrête la 
                 # récursivité et on sort de la boucle. Permet également de 
@@ -108,7 +109,7 @@ class Machine:
                 # 2.
                 # On exécute la même fonction avec les indices stockés dans le 
                 # dernier élément de la pile. Puisque c'est une boucle : 
-                # on indique boucle=True pour lancer la récursivité
+                # on indique boucle=True pour lancer la récursivité.
                 self.execute_inst(start=self.pile[-1].start, 
                                   end=self.pile[-1].stop, 
                                   boucle=True)
@@ -124,13 +125,13 @@ class Machine:
                 # On remet à jour la limite des instructions à éxécuter.
                 # On reprend donc l'indice de la dernière instruction de la 
                 # boucle parent ou la dernière instruction du programme si 
-                # la pile est vide
+                # la pile est vide.
                 if self.pile != []: end = self.pile[-1].stop
                 else: end = len(prog)
                 
                 # =============================================================
             
-            # on augmente notre indice pour chaque instruction traitée
+            # On augmente notre indice pour chaque instruction traitée.
             i += 1
         
         # Si nous sommes dans une boucle alors elle est éxécutée tant que nous
@@ -140,9 +141,16 @@ class Machine:
             
 
 if __name__ == '__main__':
-    program = sys.argv[1]
-    numbers = [int(n) for n in sys.argv[2:]]
+    
+    # On crée notre machine.
     machine = Machine()
-    machine.init(numbers)
-    machine.execute_progr(program)
+    
+    # On récupère les nombres données en arguments et on initialise 
+    # la bande de la la machine.
+    numbers = [int(n) for n in sys.argv[2:]]
+    machine.init_tape(numbers)
+    
+    # On recupère le programme donné en argument et on l'éxécute.
+    program_path = sys.argv[1]
+    machine.execute_progr(program_path)
     
