@@ -28,7 +28,7 @@ class Machine:
 
 
     def __init__(self):
-        self.tape = np.zeros(70, dtype='int32')     # la bande fnie de 70 cellules
+        self.tape = np.zeros(70, dtype='int32')     # la bande (finie de 70 cellules)
         self.head = self.init_head                  # la tête de lecture
         self.pile = []                              # la pile
       
@@ -62,19 +62,30 @@ class Machine:
         head_str[self.head] = 'X'
         return f'{"".join(tape_str)}\n{"".join(head_str)}\n'
     
-    def loop(self, i):
-        '''Ajoute les adresses de début et de fin d'une boucle dans la pile.'''
-        start = i #adresse de la première instruction de la boucle
-        end = i #adresse de la fin de la boucle
-        n = len(self.pile) +1
-        while len(prog) != end and (prog[end].startswith('\t'*n) or prog[end].startswith(' '*4*n)):
-             end += 1
-        self.pile.append(slice(start, end))
-        
     def out(self, condition):
         '''Vérifie si la condition de sortie est réalisée.'''
         if self.tape[self.head] == int(condition):
             return True
+
+    # --- Gestion de la pile ------------------------------------------------
+    def stacked(self, i):
+        '''Ajoute les adresses de début et de fin d'une boucle dans la pile.'''
+        # adresse de la première instruction de la boucle
+        start = i
+        # adresse de la fin de la boucle
+        end = i
+        n = len(self.pile) +1
+        while len(prog) != end and (prog[end].startswith('\t'*n) or prog[end].startswith(' '*4*n)):
+             end += 1
+        self.pile.append(slice(start, end))
+
+    def pops(self):
+        '''Retire le dernier élément de la pile. Renvoie l'index de la 
+        dernière instruction de cet élément (donc la boucle)'''
+        addr = self.pile.pop(-1)
+        i = addr.stop -1
+        return i
+    # -----------------------------------------------------------------------
 
     def execute_progr(self, prog_path):
         '''Lit le programme et exécute ses instructions.'''
@@ -121,7 +132,8 @@ class Machine:
                 # On cherche l'adresse de la première instruction et l'adresse
                 # de la dernière instruction de la boucle que l'on ajoute à la 
                 # pile.
-                self.loop(i)
+                #self.loop(i)
+                self.stacked(i)
                 
                 # 2.
                 # On exécute la même fonction avec les indices stockés dans le 
@@ -132,11 +144,10 @@ class Machine:
                                   boucle=True)
                 # 3.
                 # La boucle est terminée donc on dépile. Le dernier élément de 
-                # la pile est donc retiré. On en profite pour mettre à jour 
-                # notre indice d'instruction qui devient l'indice de la dernière 
-                # instruction de la dernière boucle.
-                addr = self.pile.pop(-1)
-                i = addr.stop - 1
+                # la pile est donc retirée. On renvoie l'indice de la dernière 
+                # ligne de l'instruction de la dernière instruction de la 
+                # dernière boucle.
+                i = self.pops()
                 
                 # 4.
                 # On remet à jour la limite des instructions à éxécuter.
