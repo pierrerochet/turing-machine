@@ -42,7 +42,7 @@ loop:
 
 *Attention! Ne pas oublier d'inclure au moins un out() valide pour chaque boucle sous peine de créer une boucle infinie*. Sauf si vous aimez vivre dangereusement   ¯\\_(ツ)_/¯
 
-## Exemple
+## Example
 Programme qui duplique un nombre donné
 ```
 state
