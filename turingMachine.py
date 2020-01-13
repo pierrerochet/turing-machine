@@ -64,7 +64,7 @@ class Machine:
         with open(prog_path, 'r', encoding='utf8') as sc:
             global prog # variable global pour se faciliter la vie
             prog = sc.read().split('\n')
-        self.execute_inst(end=len(program))
+        self.execute_inst(end=len(prog))
 
     def execute_inst(self, start=0, end=0, boucle=False):
         '''Exécute une liste d'instructions de l'indice "start" à l'indice 
