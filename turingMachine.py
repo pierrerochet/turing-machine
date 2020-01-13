@@ -115,8 +115,7 @@ class Machine:
                 # 3.
                 # La boucle est terminée donc on dépile. Le dernier élément de 
                 # la pile est donc retiré. On en profite pour mettre à jour 
-                # notre 
-                # indice d'instruction qui devient l'indice de la dernière 
+                # notre indice d'instruction qui devient l'indice de la dernière 
                 # instruction de la dernière boucle.
                 addr = self.pile.pop(-1)
                 i = addr.stop - 1
