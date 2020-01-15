@@ -14,7 +14,7 @@ class Machine:
 
     def __init__(self):
         self.tape = np.zeros(70, dtype='int32')     # la bande (finie de 70 cellules)
-        self.head = 0                 # la tête de lecture
+        self.head = 0                               # la tête de lecture
         self.pile = []                              # la pile
       
     def init_state(self, args, init_head=35):
