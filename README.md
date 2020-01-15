@@ -1,17 +1,20 @@
 Machine de turing simple programmée en python
 
-
 # Utilisation
-
 ```python turingMachine.py [programme] [argument1] [argument2] [...]```
 
 ## Example
 ```python turingMachine.py programs/duplique.TSP 2```
 
+# Fonctionnement
 
-# Syntaxe des programmes
+## Représentation de la machine 
 
-## Commandes disponibles
+![graph-machine](./report/turing-machine.png)
+
+## Les programmes
+
+### Commandes disponibles
 
 | Commande | Signification |
 | --- | --- |
@@ -22,7 +25,7 @@ Machine de turing simple programmée en python
 | loop: | Créer une boucle. |
 out(0) et out(1) | Tester la cellule courante avec un 0 ou un 1, quitte la boucle si la condition est validée, quitte le programme s'il n'y a pas de boucle parent. |
 
-## Fonctionnement des boucles
+### Fonctionnement des boucles
 La syntaxe respecte les indentations pour la gestion des boucles (c'est à dire des multiples de tabulation ou 4 espaces)
 Observez le schéma suivant : 
 
@@ -42,7 +45,7 @@ loop:
 
 *Attention! Ne pas oublier d'inclure au moins un out() valide pour chaque boucle sous peine de créer une boucle infinie*. Sauf si vous aimez vivre dangereusement   ¯\\_(ツ)_/¯
 
-## Example
+### Example
 Programme qui duplique un nombre donné
 ```
 state
