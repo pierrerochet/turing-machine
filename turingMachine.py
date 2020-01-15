@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Dec 18 17:52:39 2019
-
 @author: rochet
 """
 
@@ -11,36 +10,37 @@ import numpy as np
 
 
 class Machine:
-    init_head = 35
-    # init_head permet de centrer la tête de lecture sur la bande
-
-    # ------------------------ Explication : -----------------------------
-
-    # On a une bande réelle d'intervalle [0:69] avec une tête de lecture 
-    # sur la position 35 :
-    # [ 0, 1, 2, ..., 32, 33, 34, 35, 36, 37, 38, ..., 67, 68, 69 ]
-    #                              X
-
-    # Ce qui revient à avoir une bande implicle d'intervalle [-35:34] avec 
-    # une tête de lecture sur la position 0 :
-    # [-35, -34, -33, ..., -3, -2, -1, 0, 1, 2, 3, ..., 32, 33, 34 ]
-    #                                  X
 
 
     def __init__(self):
         self.tape = np.zeros(70, dtype='int32')     # la bande (finie de 70 cellules)
-        self.head = self.init_head                  # la tête de lecture
+        self.head = 0                 # la tête de lecture
         self.pile = []                              # la pile
       
-    def init_tape(self, args):
+    def init_state(self, args, init_head=35):
         '''Initilise la bande de la machine avec les nombres passés en arguments.
         Ensuite on réinitialise la tête de lecture'''
+
+        # init_head permet de centrer la tête de lecture sur la bande
+
+        # ------------------------ Explication : -----------------------------
+
+        # On a une bande réelle d'intervalle [0:69] avec une tête de lecture 
+        # sur la position 35 :
+        # [ 0, 1, 2, ..., 32, 33, 34, 35, 36, 37, 38, ..., 67, 68, 69 ]
+        #                              X
+
+        # Ce qui revient à avoir une bande imaginaire d'intervalle [-35:34] avec 
+        # une tête de lecture sur la position 0 :
+        # [-35, -34, -33, ..., -3, -2, -1, 0, 1, 2, 3, ..., 32, 33, 34 ]
+        #                                  X
+        self.head = init_head
         for n in args:
             for _ in range(n+1):
                 self.put('1')
                 self.move('>')
             self.move('>')
-        self.head = self.init_head
+        self.head = init_head
             
     def move(self, direction):
         '''Déplace la tête de lecture à gauche ou à droite.'''
@@ -104,27 +104,14 @@ class Machine:
             
             # Vérifie l'identité de l'instruction courante --------------------
             line = prog[i]
+            # =============================================================
             if '<' in line or '>' in line :
                 self.move(line[-1])
             elif 'put' in line:
                 self.put(line[-2])
             elif 'state' in line:
-                print(self.state())
-            elif 'out' in line:
-                # === Fonctionnement d'une sortie de boucle ===================
-                
-                # Si on rencontre un out(0|1) valide alors on arrête la 
-                # récursivité et on sort de la boucle. Permet également de 
-                # quitter le programme si nous ne sommes pas dans une boucle.
-                if self.out(line[-2]) == True:
-                    boucle = False
-                    break
-                # =============================================================
-                
-                
-            if 'loop:' in line:
-            # -----------------------------------------------------------------
-            
+                print(self.state())     
+            elif 'loop:' in line:
                 # ==== Foncionnement d'une boucle =============================
             
                 i += 1
@@ -156,9 +143,19 @@ class Machine:
                 # la pile est vide.
                 if self.pile != []: end = self.pile[-1].stop
                 else: end = len(prog)
-                
                 # =============================================================
-            
+
+            elif 'out' in line:
+                # === Fonctionnement d'une sortie de boucle ===================
+                
+                # Si on rencontre un out(0|1) valide alors on arrête la 
+                # récursivité et on sort de la boucle. Permet également de 
+                # quitter le programme si nous ne sommes pas dans une boucle.
+                if self.out(line[-2]) == True:
+                    boucle = False
+                    break
+                # =============================================================
+
             # On augmente notre indice pour chaque instruction traitée.
             i += 1
         
@@ -176,9 +173,8 @@ if __name__ == '__main__':
     # On récupère les nombres données en arguments et on initialise 
     # la bande de la la machine.
     numbers = [int(n) for n in sys.argv[2:]]
-    machine.init_tape(numbers)
+    machine.init_state(numbers)
     
     # On recupère le programme donné en argument et on l'éxécute.
     program_path = sys.argv[1]
     machine.execute_progr(program_path)
-    
