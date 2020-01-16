@@ -1,10 +1,10 @@
 Machine de turing simple programmée en python
 
 # Utilisation
-```python turingMachine.py [programme] [argument1] [argument2] [...]```
+```python3 turingMachine.py [programme] [argument1] [argument2] [...]```
 
 ## Example
-```python turingMachine.py programs/duplique.TSP 2```
+```python3 turingMachine.py programs/duplique.TSP 2```
 
 # Fonctionnement
 
