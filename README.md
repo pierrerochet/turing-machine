@@ -43,7 +43,7 @@ loop:
 ....
 ```
 
-*Attention! Ne pas oublier d'inclure au moins un out() valide pour chaque boucle sous peine de créer une boucle infinie*. Sauf si vous aimez vivre dangereusement   ¯\\_(ツ)_/¯
+*Attention! Veuiillez inclure au moins un out() valide par boucle sous peine d'obtenir une erreur ou une boucle infinie. ¯\\_(ツ)_/¯
 
 ### Example
 Programme qui duplique un nombre donné
