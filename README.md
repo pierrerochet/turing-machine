@@ -1,7 +1,7 @@
 Machine de turing simple programmée en python
 
 # Utilisation
-```python3 turingMachine.py [programme] [argument1] [argument2] [...]```
+```python3 turingMachine.py programme [arguments]```
 
 ## Example
 ```python3 turingMachine.py programs/duplique.TSP 2```
