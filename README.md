@@ -18,7 +18,7 @@ Machine de turing simple programmée en python
 
 | Commande | Signification |
 | --- | --- |
-| <, > | Déplacer la tête de lecture à gauche ou à droite. |
+| < et > | Déplacer la tête de lecture à gauche ou à droite. |
 | state | Afficher l'état de la machine. |
 | put(0) et put(1) | Inscrire un 0 ou un 1 sur la bande. |
 | loop: | Créer une boucle. |
